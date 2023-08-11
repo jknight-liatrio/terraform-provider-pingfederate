@@ -2,7 +2,6 @@ terraform {
   required_providers {
     pingfederate = {
       source  = "iwarapter/pingfederate"
-      version = "0.0.1-BETA"
       #for functional testing
     }
   }
@@ -123,7 +122,7 @@ resource "pingfederate_oauth_client" "woot" {
     "EXTENSION",
   ]
 
-  client_auth {
+  client_auth = {
     // type                      = "CERTIFICATE"
     // client_cert_issuer_dn     = ""
     // client_cert_subject_dn    = ""
@@ -136,11 +135,9 @@ resource "pingfederate_oauth_client" "woot" {
   // jwks_settings {
   //   jwks = "https://stuff"
   // }
-  default_access_token_manager_ref {
-    id = pingfederate_oauth_access_token_manager.my_atm.id
-  }
+  default_access_token_manager_ref = pingfederate_oauth_access_token_manager.my_atm.id
 
-  oidc_policy {
+  oidc_policy = {
     grant_access_session_revocation_api = false
 
     logout_uris = [
@@ -219,7 +216,6 @@ resource "pingfederate_oauth_access_token_manager" "my_atm" {
 }
 
 resource "pingfederate_authentication_policy_contract" "apc_foo" {
-  policy_contract_id  = "example"
   name                = "example"
   extended_attributes = ["foo", "bar"]
 }
@@ -1133,7 +1129,6 @@ resource "pingfederate_keypair_signing" "ec521" {
 }
 
 resource "pingfederate_authentication_policy_contract" "foo" {
-  policy_contract_id  = "issue117"
   name                = "issue117"
   extended_attributes = ["realName", "role", "mail"]
 }
